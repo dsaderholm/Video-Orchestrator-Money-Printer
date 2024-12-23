@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Social Media Automator{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>System Status</h2>
+    <div class="status-grid">
+        {% for api in apis %}
+        <div class="status-item">
+            <span class="status-indicator status-{{ api.status }}"></span>
+            {{ api.name }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h2>Recent Activities</h2>
+    <div class="activity-log">
+        {% for activity in activities %}
+        <div class="activity-item">
+            <span class="timestamp">{{ activity.timestamp }}</span>
+            <span class="status-indicator status-{{ activity.status }}"></span>
+            {{ activity.message }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h2>Quick Actions</h2>
+    <div class="quick-actions">
+        <button class="button" onclick="window.location.href='{{ url_for('api_config') }}'">
+            Configure APIs
+        </button>
+        <button class="button" onclick="window.location.href='{{ url_for('schedule') }}'">
+            Manage Schedule
+        </button>
+    </div>
+</div>
+{% endblock %}

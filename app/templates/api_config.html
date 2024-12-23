@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}API Configuration - Social Media Automator{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>API Configuration</h2>
+    <div class="api-type-selector">
+        <button class="button" onclick="showApiType('creator')">Creator APIs</button>
+        <button class="button" onclick="showApiType('utility')">Utility APIs</button>
+        <button class="button" onclick="showApiType('uploader')">Uploader APIs</button>
+    </div>
+</div>
+
+<div id="creator-apis" class="api-section">
+    {% for api in creator_apis %}
+    <div class="card api-card">
+        <span class="api-type creator">Creator</span>
+        <h3>{{ api.name }}</h3>
+        <form class="api-form" onsubmit="saveApiConfig(event, '{{ api.id }}')">
+            <div class="form-group">
+                <label class="label">Endpoint URL</label>
+                <input type="url" class="input" name="url" value="{{ api.url }}" required>
+            </div>
+            <div id="api-fields-{{ api.id }}">
+                {% for field in api.fields %}
+                <div class="form-group api-field">
+                    <input type="text" name="fields[{{ loop.index0 }}][name]" class="input" 
+                           value="{{ field.name }}" placeholder="Field Name" required>
+                    <input type="text" name="fields[{{ loop.index0 }}][value]" class="input" 
+                           value="{{ field.value }}" placeholder="Field Value" required>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="button" onclick="addApiField('{{ api.id }}')">
+                Add Field
+            </button>
+            <button type="submit" class="button">Save Configuration</button>
+            <button type="button" class="button test-api-button" data-api-id="{{ api.id }}">
+                Test Connection
+            </button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+
+<div id="utility-apis" class="api-section" style="display: none;">
+    {% for api in utility_apis %}
+    <div class="card api-card">
+        <span class="api-type utility">Utility</span>
+        <!-- Similar structure to creator APIs -->
+    </div>
+    {% endfor %}
+</div>
+
+<div id="uploader-apis" class="api-section" style="display: none;">
+    {% for api in uploader_apis %}
+    <div class="card api-card">
+        <span class="api-type uploader">Uploader</span>
+        <!-- Similar structure to creator APIs -->
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

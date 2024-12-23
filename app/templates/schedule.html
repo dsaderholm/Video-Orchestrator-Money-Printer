@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Schedule Management - Social Media Automator{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Schedule Configuration</h2>
+    <form id="schedule-form" class="schedule-form">
+        <div class="form-group">
+            <label class="label">Video Type</label>
+            <select name="video_type" class="select" required>
+                <option value="">Select Video Type</option>
+                {% for type in video_types %}
+                <option value="{{ type.id }}">{{ type.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="label">Upload Account</label>
+            <select name="account" class="select" required>
+                <option value="">Select Account</option>
+                {% for account in accounts %}
+                <option value="{{ account.id }}">{{ account.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="label">Frequency</label>
+            <select name="frequency" class="select" required>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+
+        <div id="custom-schedule" class="form-group" style="display: none;">
+            <label class="label">Custom Schedule (Cron Expression)</label>
+            <input type="text" name="cron" class="input" placeholder="*/15 * * * *">
+            <small class="help-text">Format: minute hour day month weekday</small>
+        </div>
+
+        <div class="form-group">
+            <label class="label">Processing Steps</label>
+            <div class="processing-steps">
+                {% for step in processing_steps %}
+                <div class="step-item">
+                    <input type="checkbox" name="steps[]" value="{{ step.id }}" 
+                           id="step-{{ step.id }}">
+                    <label for="step-{{ step.id }}">{{ step.name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="button">Save Schedule</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Active Schedules</h2>
+    <div class="schedule-grid">
+        {% for schedule in schedules %}
+        <div class="card" id="schedule-{{ schedule.id }}">
+            <div class="schedule-header">
+                <span class="status-indicator status-{{ schedule.status }}"></span>
+                <h3>{{ schedule.name }}</h3>
+            </div>
+            <div class="schedule-details">
+                <p>Type: {{ schedule.video_type }}</p>
+                <p>Account: {{ schedule.account }}</p>
+                <p>Frequency: {{ schedule.frequency }}</p>
+            </div>
+            <div class="schedule-actions">
+                <button class="button" onclick="toggleSchedule('{{ schedule.id }}')">
+                    {{ 'Pause' if schedule.status == 'active' else 'Resume' }}
+                </button>
+                <button class="button" onclick="deleteSchedule('{{ schedule.id }}')">
+                    Delete
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
