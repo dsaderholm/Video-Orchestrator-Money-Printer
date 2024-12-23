@@ -1,0 +1,145 @@
+{
+    "apis": [
+      {
+        "id": "reddit_video",
+        "name": "Reddit Video Generator",
+        "type": "creator",
+        "url": "http://192.168.1.8:8354",
+        "endpoint": "/generate",
+        "method": "POST",
+        "fields": [],
+        "output_file": true
+      },
+      {
+        "id": "captions",
+        "name": "Video Captioning",
+        "type": "utility",
+        "url": "http://192.168.1.8:8893",
+        "endpoint": "/caption",
+        "method": "POST",
+        "fields": [
+          {
+            "name": "font_size",
+            "value": "130"
+          },
+          {
+            "name": "y_offset",
+            "value": "450"
+          }
+        ],
+        "output_file": true
+      },
+      {
+        "id": "tiktok_uploader",
+        "name": "TikTok Uploader",
+        "type": "uploader",
+        "url": "http://192.168.1.8:8048",
+        "endpoint": "/upload",
+        "method": "POST",
+        "fields": [
+          {
+            "name": "description",
+            "value": "{video_description}"
+          },
+          {
+            "name": "accountname",
+            "value": "{account_name}"
+          },
+          {
+            "name": "sound_name",
+            "value": "{sound_name}"
+          },
+          {
+            "name": "sound_aud_vol",
+            "value": "background"
+          },
+          {
+            "name": "hashtags",
+            "value": "{hashtags}"
+          },
+          {
+            "name": "copyrightcheck",
+            "value": "true"
+          }
+        ],
+        "output_file": false
+      },
+      {
+        "id": "instagram_uploader",
+        "name": "Instagram Reels Uploader",
+        "type": "uploader",
+        "url": "http://localhost:8769",
+        "endpoint": "/upload",
+        "method": "POST",
+        "fields": [
+          {
+            "name": "description",
+            "value": "{video_description}"
+          },
+          {
+            "name": "accountname",
+            "value": "{account_name}"
+          },
+          {
+            "name": "sound_name",
+            "value": "{sound_name}"
+          },
+          {
+            "name": "sound_aud_vol",
+            "value": "mix"
+          },
+          {
+            "name": "hashtags",
+            "value": "{hashtags}"
+          }
+        ],
+        "output_file": false
+      }
+    ],
+    "schedules": [],
+    "activities": [],
+    "video_types": [
+      {
+        "id": "trivia",
+        "name": "Trivia Videos",
+        "accounts": [
+          {
+            "platform": "tiktok",
+            "account_name": "triviaquizzer",
+            "description_template": "Test your knowledge! #trivia #quiz",
+            "hashtags": "#trivia,#triviachallenge,#triviaquestions,#triviagame,#quiz,#quiztime,#learn",
+            "sound_name": "Curiosity Theme"
+          },
+          {
+            "platform": "instagram",
+            "account_name": "trivia_master",
+            "description_template": "Daily trivia challenge! 🎯",
+            "hashtags": "#trivia,#quiztime,#learning,#education",
+            "sound_name": "Quiz Background Music"
+          }
+        ],
+        "required_utilities": ["captions"]
+      },
+      {
+        "id": "would_you_rather",
+        "name": "Would You Rather",
+        "accounts": [
+          {
+            "platform": "tiktok",
+            "account_name": "choice_master",
+            "description_template": "Which would you choose? 🤔",
+            "hashtags": "#wouldyourather,#choice,#decision,#game,#fun",
+            "sound_name": "Decision Time"
+          },
+          {
+            "platform": "instagram",
+            "account_name": "daily_choices",
+            "description_template": "Make your choice! ⚡",
+            "hashtags": "#wouldyourather,#choices,#decisionmaking,#funquestions",
+            "sound_name": "Choice Background Music"
+          }
+        ],
+        "required_utilities": ["captions"]
+      }
+    ]
+  }
