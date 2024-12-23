@@ -17,5 +17,8 @@ COPY . .
 # Create necessary directories
 RUN mkdir -p /data/temp /data/config
 
+# Add the app directory to Python path
+ENV PYTHONPATH=/app
+
 # Run with gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "4", "src.main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "4", "--chdir", "/app", "src.main:app"]
